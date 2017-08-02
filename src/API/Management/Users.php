@@ -2,10 +2,11 @@
 
 namespace Auth0\SDK\API\Management;
 
+use Auth0\SDK\API\BaseApi;
 use Auth0\SDK\API\Helpers\ResponseMediator;
 use Auth0\SDK\Exception\ApiException;
 
-final class Users extends GenericResource
+final class Users extends BaseApi
 {
     /**
      * @link https://auth0.com/docs/api/management/v2#!/Users/get_users_by_id
@@ -24,7 +25,7 @@ final class Users extends GenericResource
             return ResponseMediator::getContent($response);
         }
 
-        return ResponseMediator::getContent($response);
+        $this->handleExceptions($response);
     }
 
     /**
@@ -45,7 +46,7 @@ final class Users extends GenericResource
             return ResponseMediator::getContent($response);
         }
 
-        return ResponseMediator::getContent($response);
+        $this->handleExceptions($response);
     }
 
     /**
@@ -65,7 +66,7 @@ final class Users extends GenericResource
             return ResponseMediator::getContent($response);
         }
 
-        return ResponseMediator::getContent($response);
+        $this->handleExceptions($response);
     }
 
     /**
@@ -99,7 +100,7 @@ final class Users extends GenericResource
             return ResponseMediator::getContent($response);
         }
 
-        return ResponseMediator::getContent($response);
+        $this->handleExceptions($response);
     }
 
     /**
@@ -119,7 +120,7 @@ final class Users extends GenericResource
             return ResponseMediator::getContent($response);
         }
 
-        return ResponseMediator::getContent($response);
+        $this->handleExceptions($response);
     }
 
     /**
@@ -141,7 +142,7 @@ final class Users extends GenericResource
             return ResponseMediator::getContent($response);
         }
 
-        return ResponseMediator::getContent($response);
+        $this->handleExceptions($response);
     }
 
     /**
@@ -163,7 +164,7 @@ final class Users extends GenericResource
             return ResponseMediator::getContent($response);
         }
 
-        return ResponseMediator::getContent($response);
+        $this->handleExceptions($response);
     }
 
     /**
@@ -178,7 +179,7 @@ final class Users extends GenericResource
     {
         $response = $this->httpClient->delete(sprintf('/users/%s/devices/%s', $userId, $deviceId));
 
-        return ResponseMediator::getContent($response);
+        $this->handleExceptions($response);
     }
 
     /**
@@ -199,6 +200,6 @@ final class Users extends GenericResource
             return ResponseMediator::getContent($response);
         }
 
-        return ResponseMediator::getContent($response);
+        $this->handleExceptions($response);
     }
 }
