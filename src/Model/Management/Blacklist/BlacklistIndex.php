@@ -2,20 +2,16 @@
 
 namespace Auth0\SDK\Model\Management\Blacklist;
 
-use Auth0\SDK\Model\CreatableFromArray;
-
 /**
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
  */
-final class BlacklistIndex implements CreatableFromArray
+final class BlacklistIndex
 {
-    /**
-     * @var array
-     */
-    private $blacklists;
+    private $data;
 
-    private function __construct()
+    private function __construct(array $data)
     {
+        $this->data = $data;
     }
 
     /**
@@ -23,21 +19,14 @@ final class BlacklistIndex implements CreatableFromArray
      */
     public function getBlacklists()
     {
-        return $this->blacklists;
+        return $this->data;
     }
 
     /**
-     * @param array $data
-     *
-     * @return BlacklistIndex
+     * @return array
      */
-    public static function createFromArray(array $data)
+    public function toArray()
     {
-        $model = new self();
-
-        // TODO verify the correctness
-        $model->blacklists = $data;
-
-        return $model;
+        return $this->data;
     }
 }

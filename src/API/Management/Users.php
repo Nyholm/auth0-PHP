@@ -16,21 +16,20 @@ final class Users extends BaseApi
      *
      * @throws ApiException On invalid responses
      *
-     * @return array
+     * @return User
      */
     public function get($userId)
     {
-        $response = $this->httpClient->get(sprintf('/users/%s', $userId));
-
-        if (!$this->hydrator) {
-            return $response;
-        }
-
-        if (200 === $response->getStatusCode()) {
-            return $this->hydrator->hydrate($response, User::class);
-        }
-
-        $this->handleExceptions($response);
+        return new User(
+            $this->arrayHydrator->hydrate(
+                $this->validResponse(
+                    $this->httpClient->get(
+                        sprintf('/users/%s', $userId)
+                    ),
+                    200
+                )
+            )
+        );
     }
 
     /**

@@ -56,7 +56,7 @@ final class Management
      * @param HttpClient|null $client
      * @param Hydrator|null   $hydrator
      */
-    public function __construct($token, $domain, HttpClient $client = null, Hydrator $hydrator = null)
+    public function __construct($token, $domain, HttpClient $client = null)
     {
         $this->token = $token;
         $this->domain = $domain;
@@ -64,7 +64,7 @@ final class Management
         $httpClientBuilder = new HttpClientBuilder($domain.'/api/v2/', $client);
         $httpClientBuilder->addHeader('Authorization', 'Bearer '.$token);
         $this->httpClient = $httpClientBuilder->buildHttpClient();
-        $this->hydrator = $hydrator ?: new ArrayHydrator();
+        $this->hydrator = new ArrayHydrator();
     }
 
     /**

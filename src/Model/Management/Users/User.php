@@ -2,29 +2,13 @@
 
 namespace Auth0\SDK\Model\Management\Users;
 
-use Auth0\SDK\Model\CreatableFromArray;
-
-class User implements CreatableFromArray
+class User
 {
-    /**
-     * @var string
-     */
-    private $email;
+    private $data;
 
-    /**
-     * @var bool
-     */
-    private $emailVerified;
-
-    /**
-     * @var string
-     */
-    private $username;
-
-    // ...
-
-    private function __construct()
+    private function __construct(array $data)
     {
+        $this->data = $data;
     }
 
     /**
@@ -32,7 +16,7 @@ class User implements CreatableFromArray
      */
     public function getEmail()
     {
-        return $this->email;
+        return $this->data['email'];
     }
 
     /**
@@ -40,7 +24,7 @@ class User implements CreatableFromArray
      */
     public function isEmailVerified()
     {
-        return $this->emailVerified;
+        return $this->data['emailVerified'];
     }
 
     /**
@@ -48,25 +32,16 @@ class User implements CreatableFromArray
      */
     public function getUsername()
     {
-        return $this->username;
+        return $this->data['username'];
     }
 
     // ...
 
     /**
-     * @param array $data
-     *
-     * @return User
+     * @return array
      */
-    public static function createFromArray(array $data)
+    public function toArray()
     {
-        $model = new self();
-        $model->email = $data['email'];
-        $model->emailVerified = $data['email_verified'];
-        $model->username = $data['username'];
-
-        // ...
-
-        return $model;
+        return $this->data;
     }
 }

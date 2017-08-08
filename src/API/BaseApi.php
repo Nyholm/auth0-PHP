@@ -9,8 +9,10 @@ use Auth0\SDK\Exception\BadRequestException;
 use Auth0\SDK\Exception\TooManyRequestsException;
 use Auth0\SDK\Exception\UnauthorizedException;
 use Auth0\SDK\Exception\UnknownApiException;
+use Auth0\SDK\Hydrator\ArrayHydrator;
 use Auth0\SDK\Hydrator\Hydrator;
 use Auth0\SDK\Hydrator\NoopHydrator;
+use Exception;
 use Http\Client\Common\HttpMethodsClient;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -28,19 +30,16 @@ abstract class BaseApi
     /**
      * @var Hydrator|null
      */
-    protected $hydrator;
+    protected $arrayHydrator;
 
     /**
      * @param HttpMethodsClient $apiClient
-     * @param Hydrator $hydrator
+     * @param ArrayHydrator $hydrator
      */
-    public function __construct(HttpMethodsClient $apiClient, Hydrator $hydrator)
+    public function __construct(HttpMethodsClient $apiClient, ArrayHydrator $hydrator)
     {
         $this->httpClient = $apiClient;
-
-        if (!$hydrator instanceof NoopHydrator) {
-            $this->hydrator = $hydrator;
-        }
+        $this->arrayHydrator = $hydrator;
     }
 
     /**
@@ -66,5 +65,20 @@ abstract class BaseApi
             default:
                 throw UnknownApiException::create($response, $content);
         }
+    }
+
+    /**
+     * @param ResponseInterface $response
+     * @param int $expectedHttpStatus
+     * @return ResponseInterface
+     * @throws ApiException
+     */
+    protected function validResponse(ResponseInterface $response, $expectedHttpStatus)
+    {
+        if ($expectedHttpStatus !== $response->getStatusCode()) {
+            $this->handleExceptions($response);
+        }
+
+        return $response;
     }
 }
