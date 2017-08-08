@@ -13,30 +13,23 @@ use Psr\Http\Message\ResponseInterface;
  */
 final class ModelHydrator implements Hydrator
 {
+    private $arrayHydrator;
+    private $creatableFromArray;
+
+    public function __construct(ArrayHydrator $arrayHydrator, CreatableFromArray $creatableFromArray)
+    {
+        $this->arrayHydrator = $arrayHydrator;
+        $this->creatableFromArray = $creatableFromArray;
+    }
     /**
      * @param ResponseInterface $response
-     * @param string            $class
      *
      * @return mixed
      */
-    public function hydrate(ResponseInterface $response, $class)
+    public function hydrate(ResponseInterface $response)
     {
-        $body = $response->getBody()->__toString();
-        if (strpos($response->getHeaderLine('Content-Type'), 'application/json') !== 0) {
-            throw new HydrationException('The ModelHydrator cannot hydrate response with Content-Type:'.$response->getHeaderLine('Content-Type'));
-        }
-
-        $data = json_decode($body, true);
-        if (JSON_ERROR_NONE !== json_last_error()) {
-            throw new HydrationException(sprintf('Error (%d) when trying to json_decode response', json_last_error()));
-        }
-
-        if (is_subclass_of($class, CreatableFromArray::class)) {
-            $object = call_user_func($class.'::createFromArray', $data);
-        } else {
-            $object = new $class($data);
-        }
-
-        return $object;
+        return $this->creatableFromArray->createFromArray(
+            $this->arrayHydrator->hydrate($response)
+        );
     }
 }

@@ -11,9 +11,8 @@ interface Hydrator
 {
     /**
      * @param ResponseInterface $response
-     * @param string            $class
      *
      * @return mixed
      */
-    public function hydrate(ResponseInterface $response, $class);
+    public function hydrate(ResponseInterface $response);
 }
