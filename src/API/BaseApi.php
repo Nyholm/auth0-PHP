@@ -41,6 +41,7 @@ abstract class BaseApi
     {
         $status = $response->getStatusCode();
         $content = ResponseMediator::getContent($response);
+        $content = $content['error'].' '.$content['error_description'] ?? '';
 
         switch ($status) {
             case 400:
