@@ -26,7 +26,7 @@ use Http\Client\HttpClient;
  *
  * @link https://auth0.com/docs/api/management/v2
  */
-final class Management
+class Management
 {
     /**
      * @var string
