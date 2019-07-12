@@ -167,6 +167,26 @@ final class Users extends BaseApi
         $this->handleExceptions($response);
     }
 
+
+
+    /**
+     * @link https://auth0.com/docs/api/management/v2#!/Users/get_user_roles
+     *
+     * @param string $userId
+     *
+     * @return array
+     */
+    public function getRoles($userId)
+    {
+        $response = $this->httpClient->get(sprintf('/users/%s/roles', $userId));
+
+        if (200 === $response->getStatusCode()) {
+            return ResponseMediator::getContent($response);
+        }
+
+        $this->handleExceptions($response);
+    }
+
     /**
      * TODO find a link to the documentation
      *
