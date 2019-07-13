@@ -167,8 +167,6 @@ final class Users extends BaseApi
         $this->handleExceptions($response);
     }
 
-
-
     /**
      * @link https://auth0.com/docs/api/management/v2#!/Users/get_user_roles
      *
@@ -181,6 +179,51 @@ final class Users extends BaseApi
         $response = $this->httpClient->get(sprintf('/users/%s/roles', $userId));
 
         if (200 === $response->getStatusCode()) {
+            return ResponseMediator::getContent($response);
+        }
+
+        $this->handleExceptions($response);
+    }
+
+    /**
+     * @link https://auth0.com/docs/api/management/v2#!/Users/delete_user_roles
+     *
+     * @param string $userId
+     * @param array $roles Note that $roles should be an array of role ids. Not role names.
+     *
+     * @return array
+     */
+    public function removeRoles($userId, array $roles)
+    {
+        $response = $this->httpClient->delete(
+            sprintf('/users/%s/roles', $userId),
+            [],
+            json_encode(['roles' => array_values($roles)])
+        );
+
+        if (204 === $response->getStatusCode()) {
+            return ResponseMediator::getContent($response);
+        }
+
+        $this->handleExceptions($response);
+    }
+    /**
+     * @link https://auth0.com/docs/api/management/v2#!/Users/post_user_roles
+     *
+     * @param string $userId
+     * @param array $roles Note that $roles should be an array of role ids. Not role names.
+     *
+     * @return array
+     */
+    public function assignRoles($userId, array $roles)
+    {
+        $response = $this->httpClient->post(
+            sprintf('/users/%s/roles', $userId),
+            [],
+            json_encode(['roles' => array_values($roles)])
+        );
+
+        if (204 === $response->getStatusCode()) {
             return ResponseMediator::getContent($response);
         }
 

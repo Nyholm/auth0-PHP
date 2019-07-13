@@ -12,6 +12,7 @@ use Auth0\SDK\API\Management\Emails;
 use Auth0\SDK\API\Management\Jobs;
 use Auth0\SDK\API\Management\Logs;
 use Auth0\SDK\API\Management\ResourceServers;
+use Auth0\SDK\API\Management\Roles;
 use Auth0\SDK\API\Management\Rules;
 use Auth0\SDK\API\Management\Stats;
 use Auth0\SDK\API\Management\Tenants;
@@ -128,6 +129,14 @@ class Management
     public function rules()
     {
         return new Rules($this->httpClient);
+    }
+
+    /**
+     * @return Roles
+     */
+    public function roles()
+    {
+        return new Roles($this->httpClient);
     }
 
     /**
