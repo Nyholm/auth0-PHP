@@ -104,6 +104,25 @@ final class Users extends BaseApi
     }
 
     /**
+     * @link https://auth0.com/docs/api/management/v2#!/Users_By_Email/get_users_by_email
+     *
+     * @throws ApiException On invalid responses
+     *
+     * @return array
+     */
+    public function searchByEmail(string $email, array $params = [])
+    {
+        $params['email'] = $email;
+        $response = $this->httpClient->get('/users-by-email?'.http_build_query($params));
+
+        if (200 === $response->getStatusCode()) {
+            return ResponseMediator::getContent($response);
+        }
+
+        $this->handleExceptions($response);
+    }
+
+    /**
      * @link https://auth0.com/docs/api/management/v2#!/Users/delete_users_by_id
      *
      * @param string $userId
