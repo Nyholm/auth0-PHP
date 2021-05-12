@@ -207,6 +207,10 @@ final class Authentication extends BaseApi
             $data['authParams'] = $authParams;
         }
 
+        if (!empty($this->clientSecret)) {
+            $data['client_secret'] = $this->clientSecret;
+        }
+
         $response = $this->httpClient->post('/passwordless/start', [], json_encode($data));
 
         if (200 === $response->getStatusCode()) {
@@ -230,6 +234,10 @@ final class Authentication extends BaseApi
             'connection'   => 'sms',
             'phone_number' => $phoneNumber,
         ];
+
+        if (!empty($this->clientSecret)) {
+            $data['client_secret'] = $this->clientSecret;
+        }
 
         $response = $this->httpClient->post('/passwordless/start', [], json_encode($data));
 
